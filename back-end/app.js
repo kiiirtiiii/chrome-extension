@@ -1,14 +1,15 @@
-// require("./serverDB");
+// requiring environment variables
+require('dotenv').config()
+
 const express = require("express");
 const http = require('http');
 const app = express();
 const cors = require("cors");
+const parser = require("body-parser");
+const scrap = require("./routes/scrapper");
 const { errorHandler, urlHandler } = require("./middlewares/error-handler");
 
-const parser = require("body-parser");
 app.use(parser.json());
-
-const scrap = require("./routes/scrapper");
 
 app.use(cors());
 
@@ -17,10 +18,9 @@ app.use("/api", scrap);
 app.use(errorHandler);
 app.use("*", urlHandler);
 
-const host = "localhost";
-const port = 4040;
-
+// creating a server
 const server = http.createServer(app);
-server.listen(port, () => console.log(`server is running @ ${host}:${port}`));
+// starting a server
+server.listen(process.env.PORT, () => console.log(`server is running @ ${process.env.HOST}:${process.env.PORT}`));
 
 module.exports = { app };
