@@ -1,16 +1,16 @@
 let apiResponse = ''; // Initialize an empty string to store the API response
 let response;
 
-document.getElementById('copyButton').addEventListener('click', () => {
-    // Copy API response to clipboard
-    navigator.clipboard.writeText(response.data.summary)
-    .then(() => {
-        alert('API response copied to clipboard');
-    })
-    .catch(err => {
-        alert('Error in copying text: ' + err);
-    });
-});
+// document.getElementById('copyButton').addEventListener('click', () => {
+//     // Copy API response to clipboard
+//     navigator.clipboard.writeText(response.data.summary)
+//     .then(() => {
+//         alert('API response copied to clipboard');
+//     })
+//     .catch(err => {
+//         alert('Error in copying text: ' + err);
+//     });
+// });
 
 document.addEventListener("DOMContentLoaded", function() {
   const tabButtons = document.querySelectorAll(".tab button");

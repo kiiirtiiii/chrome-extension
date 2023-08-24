@@ -28,7 +28,7 @@ body {
   align-items: center;
 }
 
-.tab button {
+.tab > button {
   font-style: normal;
   line-height: 19px;
   letter-spacing: 0.07px;
@@ -53,15 +53,15 @@ body {
   border-radius: 6px;
 }
 
-.tab button:focus {
+.tab > button:focus {
   outline: none;
 }
 
-.tab button:active {
+.tab > button:active {
   outline: none;
 }
 
-.tab button.active {
+.tab > button.active {
   display: flex;
   padding: 6px 10px;
   justify-content: center;
@@ -78,7 +78,7 @@ body {
   box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);
 }
 
-.tab button.disabled {
+.tab > button.disabled {
   color: #616C82;
   cursor: not-allowed;
 }
