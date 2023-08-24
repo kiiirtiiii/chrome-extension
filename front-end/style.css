@@ -1,0 +1,111 @@
+body {
+  width: 500px;
+  height: 300px;
+  font-family: 'General Sans', sans-serif;
+  background-color: #f9f9f9;
+  padding: 24px;
+  transition: background-color 0.5s ease;
+}
+
+.dark-theme {
+  background-color: #333;
+  color: #FFF;
+}
+
+.light-theme {
+  background-color: #FFF;
+  color: #333;
+}
+
+.tab {
+  display: flex;
+  height: 36px;
+  align-self: stretch;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #ccc;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab button {
+  font-style: normal;
+  line-height: 19px;
+  letter-spacing: 0.07px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+  align-self: stretch;
+  background-color:#ccc;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  transition: 0.3s;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #616C82;
+  width: 50%;
+  text-align: center;
+  border-radius: 6px;
+}
+
+.tab button:focus {
+  outline: none;
+}
+
+.tab button:active {
+  outline: none;
+}
+
+.tab button.active {
+  display: flex;
+  padding: 6px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+  align-self: stretch;
+  border: 1px solid #ccc;
+  font-weight: 700;
+  background: var(--light-neutrals-light, #F3F4F5);
+  background-color: #fff;
+  color: #616C82;
+  border-radius: 6px;
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.06);
+}
+
+.tab button.disabled {
+  color: #616C82;
+  cursor: not-allowed;
+}
+
+.tabcontent {
+  display: none;
+  padding: 5px;
+  border-top: none;
+  animation: fadeEffect 1s;
+  color: #185ee0;
+}
+
+#extension-heading {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px;
+  padding-bottom: 20px;
+  display: flex;
+  align-items: center; 
+}
+
+.inline-options {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-left: auto;
+  /* display: inline-block; */
+  /* gap: 24px; */ 
+}

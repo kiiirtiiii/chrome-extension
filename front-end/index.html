@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="fontawesome-free-5.15.3-web/css/all.css">
+  <link rel="stylesheet" href="style.css">
+  <!-- Bootstrap CSS -->
+ <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+</head>
+
+<body class="light-theme">
+  <!-- <div class="custom-control custom-switch">
+    <input type="checkbox" class="custom-control-input" id="themeToggle">
+    <label class="custom-control-label" for="themeToggle"></label>
+  </div> -->
+
+  <h2 id="extension-heading">
+    Blink ink
+    <span class="inline-options">
+      <img src="assets/volume-high.png" alt="Text-to-speech">
+      <img src="assets/translate.png" alt="Text-to-speech">
+      <img src="assets/setting-2.jpg" alt="Text-to-speech">
+    </span>
+  </h2>
+  
+  <div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Tab1')">Summary</button>
+    <button class="tablinks" onclick="openCity(event, 'Tab2')">Key Points</button>
+  </div>
+
+  <div id="Tab1" class="tabcontent">
+    <h3>Tab1</h3>
+    <p>Tab1 content.</p>
+  </div>
+
+  <div id="Tab2" class="tabcontent">
+    <h3>Tab2</h3>
+    <p>Tab2 content.</p>
+  </div> 
+    
+  <p id="apiResponse"></p>
+  
+  <button id="copyButton">
+    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+      <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"/></svg>
+  </button> 
+  <!-- <button id="saveButton"><i class="fa-regular fa-floppy-disk"></i></button> -->
+  <button id="saveButton">  <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+    <path d="M48 96V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V170.5c0-4.2-1.7-8.3-4.7-11.3l33.9-33.9c12 12 18.7 28.3 18.7 45.3V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96C0 60.7 28.7 32 64 32H309.5c17 0 33.3 6.7 45.3 18.7l74.5 74.5-33.9 33.9L320.8 84.7c-.3-.3-.5-.5-.8-.8V184c0 13.3-10.7 24-24 24H104c-13.3 0-24-10.7-24-24V80H64c-8.8 0-16 7.2-16 16zm80-16v80H272V80H128zm32 240a64 64 0 1 1 128 0 64 64 0 1 1 -128 0z"/></svg>
+  </button>
+  <script src="script.js"></script>
+</body> 
+
+</html>

@@ -12,6 +12,32 @@ document.getElementById('copyButton').addEventListener('click', () => {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+  const tabButtons = document.querySelectorAll(".tab button");
+  
+  // Function to remove active class from all tab buttons
+  function deactivateTabs() {
+    tabButtons.forEach(button => {
+      button.classList.remove("active");
+    });
+  }
+  
+  // Function to handle tab button clicks
+  function handleTabClick(event) {
+    const clickedButton = event.target;
+    
+    if (!clickedButton.classList.contains("active")) {
+      deactivateTabs();
+      clickedButton.classList.add("active");
+    }
+  }
+  
+  // Add click event listener to each tab button
+  tabButtons.forEach(button => {
+    button.addEventListener("click", handleTabClick);
+  });
+});
+
 // async function openTab(evt, tabName) {
 //   var i, tabcontent, tablinks;
 //   tabcontent = document.getElementsByClassName("tabcontent");
