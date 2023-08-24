@@ -1,10 +1,11 @@
 require('dotenv').config();
+
 const axios = require("axios");
 const cheerio = require("cheerio");
 const { processText } = require('../utils/helper');
-const openai = require('openai');
-const client = new openai.OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const tiktoken = require('tiktoken');
+const prompts = require('../utils/prompts.json');
+// const openai = require('openai');
+// const client = new openai.OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 
@@ -17,54 +18,34 @@ const scrapData = async (req, res, next) => {
     const websiteText = $('p').text();
     const result = processText(websiteText);
 
-    const encoding = tiktoken.get_encoding('gpt2');
+    console.log({result});
 
-    // Encode the text and count the tokens
-    const tokens = encoding.encode(result);
-    console.log('token: ', tokens.length);
+    const prompt = `${prompts.GET_SUMMARY}\n\n${result}`;
 
-    const shortText = cutTextToTokens(result, 15000);
+  //   const response = await client.completions.create({
+  //     model: 'text-davinci-003',
+  //     prompt,
+  //     max_tokens: 500,
+  //   });
 
-    // console.log({ shortText });
-    const newTokens = encoding.encode(shortText);
-    console.log('token: ', newTokens.length);
-
-    let prompt = 'please summarize the following text'
-    prompt = req.query.isBullets ? +`:\n\n${shortText}`: `in bullet points:\n\n${shortText}`;
-
-    const response = await client.completions.create({
-      model: 'text-davinci-003',
+    const response = await axios.post(process.env.SUMMARY_API_URL, {  
+      temperature: 0.5,
       prompt,
-      max_tokens: 500,
+      max_tokens: 250, // Adjust the number of tokens for desired summary length
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
     });
 
-    const summary = response.choices[0].text;
-
-    console.log(summary);
-    // const summary = result;
+    const summary = response.data.choices[0].text.trim();
 
     res.send({ status: 'success', data: { summary } });
   } catch (err) {
     next(err);
   }
 };
-
-function cutTextToTokens(text, maxTokens) {
-  const tokens = text.trim().split(/\s+/); // Split by whitespace
-  let selectedTokens = [];
-  let currentTokenCount = 0;
-
-  for (const token of tokens) {
-    if (currentTokenCount + token.length <= maxTokens) {
-      selectedTokens.push(token);
-      currentTokenCount += token.length + 1; // +1 for space
-    } else {
-      break;
-    }
-  }
-
-  return selectedTokens.join(' ');
-}
 
 const createAndDownloadPdf = async (req, res, next) => {
    // Create a document
