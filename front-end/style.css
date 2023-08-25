@@ -1,10 +1,11 @@
 body {
-  width: 500px;
-  height: 300px;
+  width: 537px;
+  display: flex;
+  padding: 32px 24px;
   font-family: 'General Sans', sans-serif;
-  background-color: #f9f9f9;
-  padding: 24px;
-  transition: background-color 0.5s ease;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
 }
 
 .dark-theme {
@@ -26,6 +27,7 @@ body {
   background: #ccc;
   justify-content: center;
   align-items: center;
+  margin: 0 0 10px 0;
 }
 
 .tab > button {
@@ -83,6 +85,34 @@ body {
   cursor: not-allowed;
 }
 
+.result {
+  display: flex;
+  align-self: stretch;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+}
+
+.result > p {
+  font-style: normal;
+  line-height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  width: 50%;
+  text-align: center;
+  margin: 16px 0 20px 0;
+}
+
 .tabcontent {
   display: none;
   padding: 5px;
@@ -106,18 +136,34 @@ body {
   align-items: center;
   gap: 24px;
   margin-left: auto;
-  /* display: inline-block; */
-  /* gap: 24px; */ 
+}
+
+.loader {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 10%;
+  width: 100%;
+  height: 100%;
+}
+
+.loader img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .regenerate-button {
   position: fixed;
-  bottom: 20px; /* Adjust as needed */
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #333;
   color: white;
   padding: 10px 20px;
+  margin: 40px 0 0 0 0;
   border: none;
   border-radius: 5px;
   cursor: pointer;
