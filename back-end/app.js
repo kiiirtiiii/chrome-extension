@@ -5,18 +5,16 @@ const express = require("express");
 const http = require('http');
 const app = express();
 const cors = require("cors");
-const parser = require("body-parser");
-const scrap = require("./routes/scrapper");
+const routes = require("./routes/chrome_extension");
 const { errorHandler, urlHandler } = require("./middlewares/error-handler");
 
-app.use(parser.json());
-
+app.use(express.json());
 app.use(cors());
+app.use('/api', routes);
 
-app.use("/api", scrap);
-
+// global error handlers
 app.use(errorHandler);
-app.use("*", urlHandler);
+app.all("*", urlHandler);
 
 // creating a server
 const server = http.createServer(app);

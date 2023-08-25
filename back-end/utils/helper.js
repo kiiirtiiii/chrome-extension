@@ -1,40 +1,54 @@
-const tiktoken = require('tiktoken');
+const axios = require('axios');
+const cheerio = require('cheerio');
+const {encode, decode} = require('gpt-3-encoder');
 
-const processText = (text) => {
+const scrapeData = async(url) => {
+    const scrapedData = await axios.get(url);
+    const html = scrapedData?.data;
+    const $ = cheerio.load(html);
+    return $('p').text();   // returning all the text form the <p> tag
+}
+
+const processText = ({text, prompt, responseToken, maxToken}) => {
+    // processing the scraped text
     const trimmedText = text.replace(/\r?\n|\r|\t|\s\s+/g, ' ').replace(/<[^>]*>?/gm, '').trim(); 
-    return getShortText(trimmedText);
+    
+    // calculating tokens
+    const [promptToken, textToken] = _getTokens(trimmedText, prompt);
+
+    // total count of the tokens should be equal to the supported token count that some model provides
+    const allowedTextTokens = maxToken - (responseToken + promptToken.length + 5); // taking buffer of 5 tokens
+
+    // truncate text to max tokens
+    return _truncateToTokens(textToken, allowedTextTokens);
 }
 
-const getShortText = (text) => {
-    const encoding = tiktoken.get_encoding('gpt2');
-  
-    // Encode the text and count the tokens
-    const tokens = encoding.encode(text);
-    console.log('token: ', tokens.length);
+const _getTokens = (text, prompt) => {
+    let promptToken; let textToken;
 
-    const shortText = cutTextToTokens(text, 15000);
+    // getting tokens in strings
+    const promptTokenArr = encode(prompt);
+    const textTokenArr = encode(text);
 
-    const newTokens = encoding.encode(shortText);
-    console.log('token: ', newTokens.length);
-
-    return shortText;
+    return [
+        promptToken = {
+            arr: promptTokenArr,
+            length: promptTokenArr.length, 
+        },
+        textToken = {
+            arr: textTokenArr,
+            length: textTokenArr.length,
+        },
+    ]
 }
 
-function cutTextToTokens(text, maxTokens) {
-    const tokens = text.trim().split(/\s+/); // Split by whitespace
-    let selectedTokens = [];
-    let currentTokenCount = 0;
-
-    for (const token of tokens) {
-        if (currentTokenCount + token.length <= maxTokens) {
-        selectedTokens.push(token);
-        currentTokenCount += token.length + 1; // +1 for space
-        } else {
-        break;
-        }
+const _truncateToTokens = (textToken, allowedTextTokens) => {
+    if(textToken.length > allowedTextTokens){
+        textToken.arr.length = allowedTextTokens;    // truncate the token array
+        return decode(textToken.arr);    // decode back into a string
     }
-
-    return selectedTokens.join(' ');
+    return decode(textToken.arr);
 }
 
-module.exports = { processText };
+
+module.exports = { scrapeData, processText };
