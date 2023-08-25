@@ -1,0 +1,1 @@
+GET http://localhost:4000/api/summary?url=https://en.wikipedia.org/wiki/Hrithik_Roshan&response_token=200&isRegenerate=true

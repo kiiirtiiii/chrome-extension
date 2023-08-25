@@ -20,8 +20,10 @@
     <span class="inline-options">
       <img src="assets/volume-high.png" alt="Text-to-speech">
       <img src="assets/translate.png" alt="Text-to-speech">
-      <img src="assets/setting-2.jpg" alt="Text-to-speech">
-    </span>
+      <img id="settings-icon" src="assets/setting-2.jpg" alt="Text-to-speech" class="dropdown-btn">
+      <div id="modal-content" class="dropdown-content">
+        <p>Dropdown content</p>
+      </div>    </span>
   </h2>
   
   <div class="tab">
@@ -30,10 +32,14 @@
   </div>
 
   <div class="result">
-    <p id="apiResponse"></p>
-    <button class="regenerate-button" id="regenerateBtn">
-      <img id="refreshIcon" src="assets/refresh-2.svg" alt="Refresh Icon"> Regenerate
-    </button>
+    <div class="content-wrapper">
+      <p id="apiResponse"></p>
+    </div>
+    <div class="button-wrapper">
+      <button class="regenerate-button" id="regenerateBtn">
+        <img id="refreshIcon" src="assets/refresh-2.svg" alt="Refresh Icon"> Regenerate
+      </button>
+    </div>
   </div>
 
   <!-- <div id="Tab1" class="tabcontent">
