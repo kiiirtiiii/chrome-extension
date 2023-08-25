@@ -1,4 +1,6 @@
 {
-    "GET_SUMMARY": "Can you Please generate a brief summary of the provided article?",
-    "REGENERATE_SUMMARY": "Can you rephrase the summary of the article?"
+    "GET_SUMMARY": "Can you please generate a brief summary of the following article?",
+    "REGENERATE_SUMMARY": "Can you regenerate the summary of the article?",
+    "GET_KEY_POINTS": "Can you please generate the major key-pointers of the following article?",
+    "REGENERATE_KEYPOINTS": "Can you regenerate the major key-pointers of the article?"
 }

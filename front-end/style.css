@@ -178,6 +178,11 @@ body {
   cursor: pointer;
 }
 
+.regenerate-button:disabled {
+  background-color: #616C82;
+  cursor: not-allowed;
+}
+
 .refreshIcon {
   margin-right: 12px;
 }

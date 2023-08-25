@@ -52,6 +52,10 @@ settingsIcon.addEventListener('click', function() {
   }
 });
 
+document.getElementById('summaryBtn').addEventListener('click', function() {
+  document.getElementById('regenerateBtn').disabled = false;
+});
+
 // async function openCity(evt, cityName) {
 //   console.log('opencity');
 //   // var i, tabcontent, tablinks;

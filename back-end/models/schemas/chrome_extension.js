@@ -1,6 +1,6 @@
 const {REGEX} = require('../../constants/appContants');
 
-exports.getSummarySchema = {
+exports.getSummaryAndKeypointsSchema = {
   type: 'object',
   properties: {
     url: {
@@ -11,7 +11,7 @@ exports.getSummarySchema = {
       type: 'string',
       pattern: REGEX.NUMBER_STRING
     },
-    isRegenerate: {
+    regenerate: {
       type: 'string'
     }
   },
@@ -19,11 +19,11 @@ exports.getSummarySchema = {
 };
 
 exports.getPdfSchema = {
-    type: 'object',
-    properties: {
-        text: {
-            type: 'string'
-        }
-    },
-    required: ['text']
+  type: 'object',
+  properties: {
+    text: {
+        type: 'string'
+    }
+  },
+  required: ['text']
 };

@@ -18,15 +18,14 @@ const scrapeDataAndGenerateSummary = async (req, res, next) => {
     // refining the scraped text
     const processedText = processText({
       text: websiteText,
-      prompt: req.query.isRegenerate ? prompts.REGENERATE_SUMMARY : prompts.GET_SUMMARY,
+      prompt: req.query.regenerate ? prompts.REGENERATE_SUMMARY : prompts.GET_SUMMARY,
       responseToken: +req.query.response_token,
       maxToken: OPEN_AI_MODELS.DAVINCI_003.MAX_TOKEN
     });
 
-    const temperature = req.query.isRegenerate ? 0.5 : 0.3
-    const prompt = req.query.isRegenerate ? `${prompts.REGENERATE_SUMMARY}\n\n${processedText}`:`${prompts.GET_SUMMARY}\n\n${processedText}`;
+    const temperature = req.query.regenerate ? 0.5 : 0.3
+    const prompt = req.query.regenerate ? `${prompts.REGENERATE_SUMMARY}\n\n${processedText}`:`${prompts.GET_SUMMARY}\n\n${processedText}`;
 
-    console.log(req.query.response_token);
     // generating summary using openAI api
     const response = await client.completions.create({
       model: OPEN_AI_MODELS.DAVINCI_003.MODEL,  // currently the best model provided by openAI to give text-summary related response
@@ -38,6 +37,41 @@ const scrapeDataAndGenerateSummary = async (req, res, next) => {
     const summary = response?.choices[0]?.text.trim();
 
     res.send({ status: 'success', data: summary  });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const scrapeDataAndGenerateKeypoints = async (req, res, next) => {
+  try {
+    console.log(`scrapeDataAndGenerateKeypoints api called with req:- ${JSON.stringify(req.query)}`);
+    // using cheerio to srape data
+    const websiteText = await scrapeData(req.query.url);
+
+    // refining the scraped text
+    const processedText = processText({
+      text: websiteText,
+      prompt: req.query.regenerate ? prompts.REGENERATE_KEYPOINTS : prompts.GET_KEY_POINTS,
+      responseToken: +req.query.response_token,
+      maxToken: OPEN_AI_MODELS.DAVINCI_003.MAX_TOKEN
+    });
+
+    const temperature = req.query.regenerate ? 0.5 : 0.3
+    const prompt = req.query.regenerate ? `${prompts.REGENERATE_KEYPOINTS}\n\n${processedText}`:`${prompts.GET_KEY_POINTS}\n\n${processedText}`;
+
+    // generating key-points using openAI api
+    const response = await client.completions.create({
+      model: OPEN_AI_MODELS.DAVINCI_003.MODEL,  // currently the best model provided by openAI to give text-summary related response
+      prompt,
+      max_tokens: +req.query.response_token,  // length of the summary
+      temperature // randomness of the response.
+    });
+
+    const majorPoints = response?.choices[0]?.text.trim();
+
+    console.log(majorPoints);
+
+    res.send({ status: 'success', data: majorPoints  });
   } catch (err) {
     next(err);
   }
@@ -62,4 +96,4 @@ const createAndDownloadPdf = async (req, res, next) => {
   }
 }
 
-module.exports = { scrapeDataAndGenerateSummary, createAndDownloadPdf };
+module.exports = { scrapeDataAndGenerateSummary, scrapeDataAndGenerateKeypoints, createAndDownloadPdf };
