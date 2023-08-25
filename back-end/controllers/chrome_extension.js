@@ -11,6 +11,7 @@ const client = new openai.OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const scrapeDataAndGenerateSummary = async (req, res, next) => {
   try {
+    console.log(`scrapeDataAndGenerateSummary api called with req:- ${JSON.stringify(req.query)}`);
     // using cheerio to srape data
     const websiteText = await scrapeData(req.query.url);
 

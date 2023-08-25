@@ -38,6 +38,62 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+// async function openCity(evt, cityName) {
+//   console.log('opencity');
+//   // var i, tabcontent, tablinks;
+//   // tabcontent = document.getElementsByClassName("tabcontent");
+//   // for (i = 0; i < tabcontent.length; i++) {
+//   //   tabcontent[i].style.display = "none";
+//   // }
+//   // tablinks = document.getElementsByClassName("tablinks");
+//   // for (i = 0; i < tablinks.length; i++) {
+//   //   tablinks[i].className = tablinks[i].className.replace(" active", "");
+//   //   tablinks[i].className = tablinks[i].className.replace(" disabled", "");
+//   // }
+//   // document.getElementById(cityName).style.display = "block";
+//   // evt.currentTarget.className += " active";
+//   // for (i = 0; i < tablinks.length; i++) {
+//   //   if (tablinks[i].className.indexOf("active") == -1) {
+//   //     tablinks[i].className += " disabled";
+//   //   }
+//   // }
+    
+//   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+//   document.getElementById('tab1Btn').addEventListener('click', function(event) {
+//     openTab(event, 'Tab1');
+//   });
+//   document.getElementById('tab2Btn').addEventListener('click', function(event) {
+//     openTab(event, 'Tab2');
+//   });
+
+//   if (tabName === 'Tab1') {
+//     // The code for the 'printText' button goes here
+//   const result = await fetch(`http://localhost:4040/api/scrap?url=${tab.url}&bullets=false`, {
+//     method: 'GET',
+//     headers: {
+//         'Content-Type': 'application/json',
+//     }
+//   });
+
+//   response = await result.json();
+//   console.log({response});
+//   document.getElementById('apiResponse').innerHTML = JSON.stringify(response.data.summary)
+//   } else if (tabName === 'Tab2') {
+//   // The code for the 'bulletSummery' button goes here
+//   const result = await fetch(`http://localhost:4040/api/scrap?url=${tab.url}&bullets=true`, {
+//     method: 'GET',
+//     headers: {
+//         'Content-Type': 'application/json',
+//     }
+//   });
+
+//   response = await result.json();
+//   console.log({response});
+//   document.getElementById('apiResponse').innerHTML = JSON.stringify(response.data.summary)
+//   }
+// }
+
 // async function openTab(evt, tabName) {
 //   var i, tabcontent, tablinks;
 //   tabcontent = document.getElementsByClassName("tabcontent");
@@ -115,57 +171,3 @@ document.getElementById('saveButton').addEventListener('click', async function()
   });
 });
 
-async function openCity(evt, cityName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-        tablinks[i].className = tablinks[i].className.replace(" disabled", "");
-      }
-      document.getElementById(cityName).style.display = "block";
-      evt.currentTarget.className += " active";
-      for (i = 0; i < tablinks.length; i++) {
-        if (tablinks[i].className.indexOf("active") == -1) {
-          tablinks[i].className += " disabled";
-        }
-      }
-      
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-  document.getElementById('tab1Btn').addEventListener('click', function(event) {
-    openTab(event, 'Tab1');
-  });
-  document.getElementById('tab2Btn').addEventListener('click', function(event) {
-    openTab(event, 'Tab2');
-  });
-
-  if (tabName === 'Tab1') {
-    // The code for the 'printText' button goes here
-const result = await fetch(`http://localhost:4040/api/scrap?url=${tab.url}&bullets=false`, {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-    }
-});
-
-response = await result.json();
-console.log({response});
-document.getElementById('apiResponse').innerHTML = JSON.stringify(response.data.summary)
-} else if (tabName === 'Tab2') {
-// The code for the 'bulletSummery' button goes here
-const result = await fetch(`http://localhost:4040/api/scrap?url=${tab.url}&bullets=true`, {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-    }
-});
-
-response = await result.json();
-console.log({response});
-document.getElementById('apiResponse').innerHTML = JSON.stringify(response.data.summary)
-}
-}
