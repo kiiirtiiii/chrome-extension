@@ -109,3 +109,20 @@ body {
   /* display: inline-block; */
   /* gap: 24px; */ 
 }
+
+.regenerate-button {
+  position: fixed;
+  bottom: 20px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.refreshIcon {
+  margin-right: 12px;
+}

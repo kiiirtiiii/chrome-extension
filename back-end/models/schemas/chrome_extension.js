@@ -10,9 +10,12 @@ exports.getSummarySchema = {
     response_token: {
       type: 'string',
       pattern: REGEX.NUMBER_STRING
+    },
+    isRegenerate: {
+      type: 'string'
     }
   },
-  required: ['url']
+  required: ['url','response_token']
 };
 
 exports.getPdfSchema = {

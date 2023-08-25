@@ -18,19 +18,21 @@ const scrapeDataAndGenerateSummary = async (req, res, next) => {
     // refining the scraped text
     const processedText = processText({
       text: websiteText,
-      prompt: prompts.GET_SUMMARY,
+      prompt: req.query.isRegenerate ? prompts.REGENERATE_SUMMARY : prompts.GET_SUMMARY,
       responseToken: +req.query.response_token,
       maxToken: OPEN_AI_MODELS.DAVINCI_003.MAX_TOKEN
     });
 
-    const prompt = `${prompts.GET_SUMMARY}\n\n${processedText}`;
+    const temperature = req.query.isRegenerate ? 0.5 : 0.3
+    const prompt = req.query.isRegenerate ? `${prompts.REGENERATE_SUMMARY}\n\n${processedText}`:`${prompts.GET_SUMMARY}\n\n${processedText}`;
 
+    console.log(req.query.response_token);
     // generating summary using openAI api
     const response = await client.completions.create({
       model: OPEN_AI_MODELS.DAVINCI_003.MODEL,  // currently the best model provided by openAI to give text-summary related response
       prompt,
       max_tokens: +req.query.response_token,  // length of the summary
-      temperature: 0.3  // randomness of the response. best to keep it as close to 0
+      temperature // randomness of the response. best to keep it as close to 0
     });
 
     const summary = response?.choices[0]?.text.trim();

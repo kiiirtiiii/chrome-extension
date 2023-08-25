@@ -1,3 +1,4 @@
 {
-    "GET_SUMMARY": "Can you please give me the summary of following text and eliminate the incomplete sentence from the summary?"
+    "GET_SUMMARY": "Can you Please generate a brief summary of the provided article?",
+    "REGENERATE_SUMMARY": "Can you rephrase the summary of the article?"
 }
