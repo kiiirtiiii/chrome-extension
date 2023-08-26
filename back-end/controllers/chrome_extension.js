@@ -56,7 +56,7 @@ const scrapeDataAndGenerateKeypoints = async (req, res, next) => {
       maxToken: OPEN_AI_MODELS.DAVINCI_003.MAX_TOKEN
     });
 
-    const temperature = req.query.regenerate ? 0.5 : 0.3
+    const temperature = req.query.regenerate ? 0.5 : 0.1
     const prompt = req.query.regenerate ? `${prompts.REGENERATE_KEYPOINTS}\n\n${processedText}`:`${prompts.GET_KEY_POINTS}\n\n${processedText}`;
 
     // generating key-points using openAI api
@@ -69,8 +69,6 @@ const scrapeDataAndGenerateKeypoints = async (req, res, next) => {
 
     const majorPoints = response?.choices[0]?.text.trim();
 
-    console.log(majorPoints);
-
     res.send({ status: 'success', data: majorPoints  });
   } catch (err) {
     next(err);
@@ -79,19 +77,21 @@ const scrapeDataAndGenerateKeypoints = async (req, res, next) => {
 
 const createAndDownloadPdf = async (req, res, next) => {
   try{
+    console.log(`createAndDownloadPdf api called with req:- ${JSON.stringify(req.body)}`);
     // Create a document
     const doc = new PDFDocument;
 
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader(`Content-Disposition', 'attachment; filename=summary_${uuidv4()}.pdf`);
+    res.setHeader('Content-Disposition', `attachment; filename=summary${uuidv4()}.pdf`);
 
     // adding text to the doc
-    doc.text(req.body, 100, 100);
+    doc.text(req.body.text, 100, 100);
     // using pipe to stream the pdf at front-end
     doc.pipe(res);
     // Finalize PDF file
     doc.end();
   }catch(err){
+    console.log(err);
     next(err);
   }
 }
