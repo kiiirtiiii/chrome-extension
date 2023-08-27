@@ -205,6 +205,16 @@ body {
   letter-spacing: 0.2px;
 }
 
+#note {
+  margin-top: 10px;
+  font-size: 10px;
+  font-style: normal;
+  color: #616C82;
+  font-weight: 500;
+  line-height: 10px;
+  letter-spacing: 0.2px;
+}
+
 .dropdown-content > input {
   font-size: 14px;
   width: 100%; box-sizing: border-box;

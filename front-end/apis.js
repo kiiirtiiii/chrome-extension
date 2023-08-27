@@ -5,19 +5,21 @@ const keyPointsBtn = document.getElementById('keyPointsBtn');
 const copyBtn = document.getElementById('copyButton');
 const saveBtn = document.getElementById('saveButton');
 const loader = document.getElementById('loader');
+const apiResponse =  document.getElementById('apiResponse');
+const textbox = document.getElementById('responseLengthInput');
 
 const apiBaseUrl = 'http://localhost:4000/api/'
 
 let apiResponseData;
 
-// Define the function to fetch summary by api call
+// Define the function to fetch summary and keypoints by api call
 const callAPI = async (url) => {
     try{
-        document.getElementById('apiResponse').style.display = 'none'; // Hide the current text
+        apiResponse.style.display = 'none';
         regenerateBtn.style.display = 'none'; 
         copyBtn.style.display = 'none'; 
         saveBtn.style.display = 'none';
-        loader.style.display = 'block';  // Show loader
+        loader.style.display = 'block';
 
         let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         
@@ -25,17 +27,17 @@ const callAPI = async (url) => {
         const response = await fetch(`${url}${tab.url}`);
         let data = await response.json();
 
-        loader.style.display = 'none'; // Hide loader
-        document.getElementById('apiResponse').style.display = 'block'; // Show text
+        loader.style.display = 'none';
+        apiResponse.style.display = 'block';
         regenerateBtn.style.display = 'block'; 
-        copyBtn.style.display = 'block'; // Show copy button
-        saveBtn.style.display = 'block'; // Show copy button
+        copyBtn.style.display = 'block';
+        saveBtn.style.display = 'block';
         
         apiResponseData = data.data;
-        document.getElementById('apiResponse').innerHTML = formatResponse(data.data); // Display the result
+        apiResponse.innerHTML = formatResponse(data.data)
     } catch(err){
-        document.getElementById('loader').style.display = 'none'; // Hide loader in case of error
-        document.getElementById('apiResponse').innerHTML = 'Something went wrong!' // Show the error
+        loader.style.display = 'none';
+        apiResponse.innerHTML = 'Something went wrong!';
         console.log('Error: ',err);
     } 
 }
@@ -68,14 +70,22 @@ const formatResponse = (text) => {
 }
 
 // Add event listeners to the buttons
-summaryBtn.addEventListener('click', () => callAPI(`${apiBaseUrl}summary?response_token=500&url=` ));
-keyPointsBtn.addEventListener('click', () => callAPI(`${apiBaseUrl}key-points?response_token=500&url=`));
+summaryBtn.addEventListener('click', () => {
+    let responseLimit = Math.floor(+(textbox.value)/4) || 500; 
+    callAPI(`${apiBaseUrl}summary?response_token=${responseLimit}&url=` )
+});
+keyPointsBtn.addEventListener('click', () => {
+    let responseLimit = Math.floor(+(textbox.value)/4) || 500; 
+    callAPI(`${apiBaseUrl}key-points?response_token=${responseLimit}&url=`)
+});
 
 regenerateBtn.addEventListener('click', function() {
     if (lastButtonClicked === 'summary') {
-        callAPI(`${apiBaseUrl}/summary?regenerate=true&response_token=500&url=`);
+        let responseLimit = Math.floor(+(textbox.value)/4) || 500; 
+        callAPI(`${apiBaseUrl}/summary?regenerate=true&response_token=${responseLimit}&url=`);
     } else if (lastButtonClicked === 'keyPoints') {
-        callAPI(`${apiBaseUrl}/key-points?regenerate=true&response_token=500&url=`);
+        let responseLimit = Math.floor(+(textbox.value)/4) || 500; 
+        callAPI(`${apiBaseUrl}/key-points?regenerate=true&response_token=${responseLimit}&url=`);
     }
 });
 
