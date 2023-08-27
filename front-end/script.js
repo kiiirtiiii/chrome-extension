@@ -25,16 +25,13 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // Get the settings icon and the modal content
-var settingsIcon = document.querySelector('.dropdown-btn');
-var modalContent = document.querySelector('.dropdown-content');
-
 // Add a click event listener to the settings icon
-settingsIcon.addEventListener('click', function() {
+document.querySelector('.dropdown-btn').addEventListener('click', function() {
   // Toggle the display property of the modal content
-  if (modalContent.style.display === 'none') {
-    modalContent.style.display = 'block';
+  if (document.querySelector('.dropdown-content').style.display === 'none') {
+    document.querySelector('.dropdown-content').style.display = 'block';
   } else {
-    modalContent.style.display = 'none';
+    document.querySelector('.dropdown-content').style.display = 'none';
   }
 });
 
