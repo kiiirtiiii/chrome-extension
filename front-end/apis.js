@@ -62,30 +62,37 @@ const savePdfAPI = (url) => {
 const formatResponse = (text) => {
     const firstPointIndex = text.indexOf('\n\n');
 
+    let trimmedText;
     if(firstPointIndex !== -1){
-        const trimmedText = text.substring(firstPointIndex+2);
+        trimmedText = text.substring(firstPointIndex+2);
+    } else {
+        trimmedText = text;
+    }
+
+    const lastFullStopIndex = trimmedText.lastIndexOf('.');
+
+    if (lastFullStopIndex !== -1) {
+        return trimmedText.substring(0, lastFullStopIndex + 1).split('\n').join('<br/>');
+    } else {
         return trimmedText.split('\n').join('<br/>'); 
     }
-    return text.split('\n').join('<br/>'); 
 }
 
 // Add event listeners to the buttons
 summaryBtn.addEventListener('click', () => {
-    let responseLimit = Math.floor(+(textbox.value)/4) || 500; 
+    let responseLimit = textbox.value || 2000; 
     callAPI(`${apiBaseUrl}summary?response_token=${responseLimit}&url=` )
 });
 keyPointsBtn.addEventListener('click', () => {
-    let responseLimit = Math.floor(+(textbox.value)/4) || 500; 
-    callAPI(`${apiBaseUrl}key-points?response_token=${responseLimit}&url=`)
+    callAPI(`${apiBaseUrl}key-points?response_token=2000&url=`)
 });
 
 regenerateBtn.addEventListener('click', function() {
     if (lastButtonClicked === 'summary') {
-        let responseLimit = Math.floor(+(textbox.value)/4) || 500; 
+        let responseLimit = textbox.value || 2000; 
         callAPI(`${apiBaseUrl}/summary?regenerate=true&response_token=${responseLimit}&url=`);
     } else if (lastButtonClicked === 'keyPoints') {
-        let responseLimit = Math.floor(+(textbox.value)/4) || 500; 
-        callAPI(`${apiBaseUrl}/key-points?regenerate=true&response_token=${responseLimit}&url=`);
+        callAPI(`${apiBaseUrl}/key-points?regenerate=true&response_token=2000&url=`);
     }
 });
 

@@ -17,7 +17,7 @@ const processText = ({text, prompt, responseToken, maxToken}) => {
     const [promptToken, textToken] = _getTokens(trimmedText, prompt);
 
     // total count of the tokens should be equal to the supported token count that some model provides
-    const allowedTextTokens = maxToken - (responseToken + promptToken.length + 5); // taking buffer of 5 tokens
+    const allowedTextTokens = maxToken - (responseToken + promptToken.length + 10); // taking buffer of 5 tokens
 
     // truncate text to max tokens
     return _truncateToTokens(textToken, allowedTextTokens);
