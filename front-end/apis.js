@@ -24,7 +24,7 @@ const callAPI = async (url) => {
         let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         
         // api call
-        const response = await fetch(`${url}${tab.url}`);
+        const response = await fetch(`${url}${tab?.url}`);
         let data = await response.json();
 
         loader.style.display = 'none';
@@ -33,11 +33,16 @@ const callAPI = async (url) => {
         copyBtn.style.display = 'block';
         saveBtn.style.display = 'block';
         
-        apiResponseData = data.data;
-        apiResponse.innerHTML = formatResponse(data.data)
+        apiResponseData = data?.data;
+        apiResponse.innerHTML = formatResponse(data?.data)
     } catch(err){
         loader.style.display = 'none';
-        apiResponse.innerHTML = 'Something went wrong!';
+        if (!navigator.onLine) {
+            // If offline, show a different error message
+            apiResponse.innerHTML = 'You are offline. Please check your network connection.';
+        } else {
+            apiResponse.innerHTML = 'Something went wrong!';
+        }
         console.log('Error: ',err);
     } 
 }
@@ -60,21 +65,21 @@ const savePdfAPI = (url) => {
 }
 
 const formatResponse = (text) => {
-    const firstPointIndex = text.indexOf('\n\n');
+    const firstPointIndex = text?.indexOf('\n\n');
 
     let trimmedText;
     if(firstPointIndex !== -1){
-        trimmedText = text.substring(firstPointIndex+2);
+        trimmedText = text?.substring(firstPointIndex+2);
     } else {
         trimmedText = text;
     }
 
-    const lastFullStopIndex = trimmedText.lastIndexOf('.');
+    const lastFullStopIndex = trimmedText?.lastIndexOf('.');
 
     if (lastFullStopIndex !== -1) {
-        return trimmedText.substring(0, lastFullStopIndex + 1).split('\n').join('<br/>');
+        return trimmedText?.substring(0, lastFullStopIndex + 1).split('\n').join('<br/>');
     } else {
-        return trimmedText.split('\n').join('<br/>'); 
+        return trimmedText?.split('\n').join('<br/>'); 
     }
 }
 
