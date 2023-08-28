@@ -15,6 +15,11 @@ let apiResponseData;
 // Define the function to fetch summary and keypoints by api call
 const callAPI = async (url) => {
     try{
+        if (!navigator.onLine) {
+           // If offline, show a different error message
+           throw new Error('You are offline. Please check your network connection!');
+        };
+
         apiResponse.style.display = 'none';
         regenerateBtn.style.display = 'none'; 
         copyBtn.style.display = 'none'; 
@@ -27,6 +32,10 @@ const callAPI = async (url) => {
         const response = await fetch(`${url}${tab?.url}`);
         let data = await response.json();
 
+        if(data.isError){
+            throw new Error('Something went wrong!');
+        }
+
         loader.style.display = 'none';
         apiResponse.style.display = 'block';
         regenerateBtn.style.display = 'block'; 
@@ -37,17 +46,17 @@ const callAPI = async (url) => {
         apiResponse.innerHTML = formatResponse(data?.data)
     } catch(err){
         loader.style.display = 'none';
-        if (!navigator.onLine) {
-            // If offline, show a different error message
-            apiResponse.innerHTML = 'You are offline. Please check your network connection.';
-        } else {
-            apiResponse.innerHTML = 'Something went wrong!';
-        }
-        console.log('Error: ',err);
+        apiResponse.style.display = 'block';
+        apiResponse.innerHTML = err instanceof Error ? err.message : 'Something went wrong!';
     } 
 }
 
 const savePdfAPI = (url) => {
+    if (!navigator.onLine) {
+        // If offline, show a different error message
+        throw new Error('You are offline. Please check your network connection!');
+    };
+    
     fetch(url, {
         method: 'POST',
         headers: {
@@ -61,7 +70,9 @@ const savePdfAPI = (url) => {
         link.href = window.URL.createObjectURL(blob);
         link.download = 'summary.pdf';
         link.click();
-    }).catch(err => console.log('Error: ',err));
+    }).catch(err => {
+        alert(err instanceof Error ? err.message : 'Something went wrong!');
+    });
 }
 
 const formatResponse = (text) => {
